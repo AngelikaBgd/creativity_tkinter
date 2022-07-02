@@ -1,6 +1,6 @@
 """
 This is example of a common calculator.
-You can use the buttons or the keyboard to enter numbers.
+You can use the buttons or the keyboard to displays numbers.
 The key "C" on keyboard can to clear window of calculator.
 """
 

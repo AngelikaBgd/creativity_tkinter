@@ -1,10 +1,18 @@
-# Main window
+"""
+This is example of a common calculator.
+You can use the buttons or the keyboard to enter numbers.
+The key "C" on keyboard can to clear window of calculator.
+"""
 
 import tkinter as tk
 from tkinter import messagebox
 
 
 def add_digit(digit):
+    """ Function displays numbers on the calculator screen
+    :param digit: number
+    :return:
+    """
     value = calc.get()
     if value[0] == '0':
         value = value[1:]
@@ -16,6 +24,11 @@ def add_digit(digit):
 
 
 def add_operation(operation):
+    """
+    Function displays operators on the calculator screen
+    :param operation: operators "+", "-", "*", "/"
+    :return:
+    """
     value = calc.get()
     if value[-1] in '*/+-':
         value = value[:-1]
@@ -29,6 +42,11 @@ def add_operation(operation):
 
 
 def calculate():
+    """
+    Function displays result on the calculator screen.
+
+    :return:
+    """
     value = calc.get()
     if value[-1] in '+-/*':
         value = value + value[:-1]
@@ -48,6 +66,10 @@ def calculate():
 
 
 def clear():
+    """
+    Function clean the calculator's screen
+    :return:
+    """
     calc['state'] = tk.NORMAL
     calc.delete(0, tk.END)
     calc.insert(0, '0')
@@ -55,52 +77,80 @@ def clear():
 
 
 def button_maker(digit):
+    """
+    Function creates buttons with numbers and symbol '.' on the calculator.
+    By this buttons can to add numbers(digit) on the screen.
+    :param digit: number on the button
+    :return:
+    """
     return tk.Button(win, text=digit, bd=5, font=('Arial', 13), command=lambda: add_digit(digit))
 
 
 def button_operation(operation):
+    """
+    Function creates buttons with operators ('*', '+', '-', '/') on the calculator.
+    :param operation: one of operators ('*', '+', '-', '/').
+    :return:
+    """
     return tk.Button(win, text=operation, bd=5, font=('Arial', 13),
                      fg='red', command=lambda: add_operation(operation))
 
 
 def button_calc(command):
+    """
+    Function creates button '='.
+    :param command:
+    :return:
+    """
     return tk.Button(win, text=command, bd=5, font=('Arial', 13),
                      fg='red', command=calculate)
 
 
 def button_clear(command):
+    """
+    Function create button 'C'. After press this button calculator's screen will be clean (0).
+    :param command:
+    :return:
+    """
     return tk.Button(win, text=command, bd=5, font=('Arial', 13),
                      fg='red', command=clear)
 
 
 def press_key(event):
+    """
+    Function add numbers, operation, Enter and "=" (like "="),
+    "c" or "C" (like "clear") from keyboard.
+    :param event: key pressed.
+    :return:
+    """
     if event.char.isdigit():
         add_digit(event.char)
     elif event.char in '+-*/':
         add_operation(event.char)
-    elif event.char == '\r':
+    elif event.char == '\r' or event.char == '=':
         calculate()
-    elif event.char == 'c':
+    elif event.char.lower() == 'c':
         clear()
 
 
+# Tkinter screen
 win = tk.Tk()
 
 win['bg'] = '#33ffe6'
 win.title('Calculator')
-win.geometry("245x350+10+10")  # Size of screen and screen position +10+10
+win.geometry("245x350+10+10")
 
-#Press key
+# Press key
 win.bind('<Key>', press_key)
 
-calc = tk.Entry(win, justify=tk.RIGHT, font=('Arial', 15), width=15, bd=6, fg='black', state=tk.DISABLED, disabledbackground='white')
+# Tkinter Entry - calculator's screen
+calc = tk.Entry(win, justify=tk.RIGHT, font=('Arial', 15), width=15, bd=6, fg='black', disabledbackground='white')
 calc['state'] = tk.NORMAL
 calc.insert(0, '0')
 calc['state'] = tk.DISABLED
-calc['font'] = ('Times New Roman', 15)
 calc.grid(row=0, column=0, columnspan=4, stick='we', padx=3, pady=3)
 
-# Button digits
+# Button digits and '.'
 button_maker(1).grid(row=2, column=0, stick='wens', padx=3, pady=3)
 button_maker(2).grid(row=2, column=1, stick='wens', padx=3, pady=3)
 button_maker(3).grid(row=2, column=2, stick='wens', padx=3, pady=3)
